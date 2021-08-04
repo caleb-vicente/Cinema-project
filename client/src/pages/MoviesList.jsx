@@ -93,6 +93,11 @@ class MoviesList extends Component {
                 filterable: true,
             },
             {
+                Header: 'Category',
+                accessor: 'category',
+                filterable: true,
+            },
+            {
                 Header: 'Time',
                 accessor: 'time',
                 Cell: props => <span>{props.value.join(' / ')}</span>,

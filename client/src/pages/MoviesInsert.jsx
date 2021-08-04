@@ -23,6 +23,12 @@ const InputText = styled.input.attrs({
     margin: 5px;
 `
 
+const SelectCategory = styled.select.attrs({
+    className: 'form-control',
+})`
+    margin: 5px;
+`
+
 const Button = styled.button.attrs({
     className: `btn btn-primary`,
 })`
@@ -42,6 +48,7 @@ class MoviesInsert extends Component {
         this.state = {
             name: '',
             rating: '',
+            category: '',
             time: '',
         }
     }
@@ -59,28 +66,42 @@ class MoviesInsert extends Component {
         this.setState({ rating })
     }
 
+    handleChangeInputCategory = async event => {
+        const category = event.target.value
+        this.setState({ category })
+    }
+
     handleChangeInputTime = async event => {
         const time = event.target.value
         this.setState({ time })
     }
 
     handleIncludeMovie = async () => {
-        const { name, rating, time } = this.state
+        const { name, rating, category, time } = this.state
         const arrayTime = time.split('/')
-        const payload = { name, rating, time: arrayTime }
+        const payload = { name, rating, category, time: arrayTime }
 
         await api.insertMovie(payload).then(res => {
             window.alert(`Movie inserted successfully`)
             this.setState({
                 name: '',
                 rating: '',
+                category: '',
                 time: '',
             })
         })
     }
 
     render() {
-        const { name, rating, time } = this.state
+        const { name, rating, category, time } = this.state
+        const options = [
+            "",
+            "Fiction",
+            "Action",
+            "Romance",
+            "Comedy"
+        ]
+
         return (
             <Wrapper>
                 <Title>Create Movie</Title>
@@ -103,6 +124,13 @@ class MoviesInsert extends Component {
                     value={rating}
                     onChange={this.handleChangeInputRating}
                 />
+
+                <Label>Category: </Label>
+                <SelectCategory onChange={this.handleChangeInputCategory}>
+                    {options.map((option) => (
+                        <option value={option}>{option}</option>
+                    ))}
+                </SelectCategory>
 
                 <Label>Time: </Label>
                 <InputText

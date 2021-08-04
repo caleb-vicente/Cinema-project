@@ -5,6 +5,7 @@ const Movie = new Schema(
     {
         name: { type: String, required: true },
         time: { type: [String], required: true },
+        category: {type: String, required: false},
         rating: { type: Number, required: true },
     },
     { timestamps: true },
